@@ -3,15 +3,19 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"encoding/hex"
 	"encoding/xml"
+	"errors"
 	"flag"
 	"fmt"
 	"go/doc"
+	"golang.org/x/crypto/blake2b"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/iancoleman/strcase"
@@ -105,6 +109,7 @@ type Description struct {
 	Summary string   `xml:"summary,attr"`
 }
 
+var cacheDir string
 var protocol Protocol
 
 func main() {
@@ -113,6 +118,19 @@ func main() {
 	if inputFile == "" || outputFile == "" {
 		flag.Usage()
 		return
+	}
+
+	useCache := os.Getenv("WAYLAND_SCANNER_USE_CACHE")
+	if useCache == "1" {
+		xdgCacheHome := os.Getenv("XDG_CACHE_HOME")
+		if xdgCacheHome == "" {
+			xdgCacheHome = filepath.Join(os.Getenv("HOME"), ".cache")
+		}
+		cacheDir = filepath.Join(xdgCacheHome, "go-wayland/scanner")
+		err := os.MkdirAll(cacheDir, 0755)
+		if err != nil {
+			log.Fatalf("failed to create cache directory with enabled cache: %v", err)
+		}
 	}
 
 	src, err := getInputFile(inputFile)
@@ -166,12 +184,47 @@ func main() {
 
 func getInputFile(file string) (io.ReadCloser, error) {
 	if strings.HasPrefix(file, "http") {
+		var pathToFile string
+		if cacheDir != "" {
+			hashBytes := blake2b.Sum512([]byte(file))
+			hash := hex.EncodeToString(hashBytes[:])
+
+			pathToFile = filepath.Join(
+				cacheDir,
+				// Hash limit chosen kinda arbitrarily, 16^15 possible combinations
+				fmt.Sprintf("%s-%s", packageName, hash[:15]),
+			)
+			handle, err := os.Open(pathToFile)
+			switch {
+			case errors.Is(err, os.ErrNotExist):
+				// Not cached yet
+			case err != nil:
+				return nil, fmt.Errorf("unable to open cached file: %v", err)
+			default:
+				return handle, nil
+			}
+		}
+
 		resp, err := http.Get(file)
 		if err != nil {
 			return nil, err
 		}
 
-		return resp.Body, nil
+		if cacheDir == "" {
+			return resp.Body, nil
+		}
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, fmt.Errorf("unable to read response body: %v", err)
+		}
+
+		err = os.WriteFile(pathToFile, body, 0644)
+		if err != nil {
+			return nil, fmt.Errorf("unable to save file to cache: %v", err)
+		}
+
+		return io.NopCloser(bytes.NewReader(body)), nil
 	}
 
 	return os.Open(file)
