@@ -29,6 +29,11 @@ package xwayland_shell
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// XwaylandShellInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const XwaylandShellInterfaceName = "xwayland_shell_v1"
+
 // XwaylandShell : context object for Xwayland shell
 //
 // xwayland_shell_v1 is a singleton global object that
@@ -150,6 +155,11 @@ func (e XwaylandShellError) Value() string {
 func (e XwaylandShellError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// XwaylandSurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const XwaylandSurfaceInterfaceName = "xwayland_surface_v1"
 
 // XwaylandSurface : interface for associating Xwayland windows to wl_surfaces
 //

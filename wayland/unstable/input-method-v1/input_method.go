@@ -29,6 +29,11 @@ package input_method
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// InputMethodContextInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputMethodContextInterfaceName = "zwp_input_method_context_v1"
+
 // InputMethodContext : input method context
 //
 // Corresponds to a text input on the input method side. An input method context
@@ -603,6 +608,11 @@ func (i *InputMethodContext) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// InputMethodInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputMethodInterfaceName = "zwp_input_method_v1"
+
 // InputMethod : input method
 //
 // An input method object is responsible for composing text in response to
@@ -686,6 +696,11 @@ func (i *InputMethod) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// InputPanelInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputPanelInterfaceName = "zwp_input_panel_v1"
+
 // InputPanel : interface for implementing keyboards
 //
 // Only one client can bind this interface at a time.
@@ -725,6 +740,11 @@ func (i *InputPanel) Destroy() error {
 	i.Context().Unregister(i)
 	return nil
 }
+
+// InputPanelSurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputPanelSurfaceInterfaceName = "zwp_input_panel_surface_v1"
 
 // InputPanelSurface :
 type InputPanelSurface struct {

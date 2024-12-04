@@ -29,6 +29,11 @@ package presentation_time
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// PresentationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PresentationInterfaceName = "wp_presentation"
+
 // Presentation : timed presentation related wl_surface requests
 //
 // The main feature of this interface is accurate presentation
@@ -221,6 +226,11 @@ func (i *Presentation) Dispatch(opcode uint32, fd int, data []byte) {
 		i.clockIdHandler(e)
 	}
 }
+
+// PresentationFeedbackInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PresentationFeedbackInterfaceName = "wp_presentation_feedback"
 
 // PresentationFeedback : presentation time feedback event
 //

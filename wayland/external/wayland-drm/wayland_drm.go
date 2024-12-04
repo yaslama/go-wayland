@@ -35,6 +35,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// DrmInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DrmInterfaceName = "wl_drm"
+
 // Drm :
 type Drm struct {
 	client.BaseProxy

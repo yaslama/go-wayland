@@ -32,6 +32,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// PrimarySelectionDeviceManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PrimarySelectionDeviceManagerInterfaceName = "zwp_primary_selection_device_manager_v1"
+
 // PrimarySelectionDeviceManager : X primary selection emulation
 //
 // The primary selection device manager is a singleton global object that
@@ -110,6 +115,11 @@ func (i *PrimarySelectionDeviceManager) Destroy() error {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return err
 }
+
+// PrimarySelectionDeviceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PrimarySelectionDeviceInterfaceName = "zwp_primary_selection_device_v1"
 
 // PrimarySelectionDevice :
 type PrimarySelectionDevice struct {
@@ -235,6 +245,11 @@ func (i *PrimarySelectionDevice) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// PrimarySelectionOfferInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PrimarySelectionOfferInterfaceName = "zwp_primary_selection_offer_v1"
+
 // PrimarySelectionOffer : offer to transfer primary selection contents
 //
 // A wp_primary_selection_offer represents an offer to transfer the contents
@@ -337,6 +352,11 @@ func (i *PrimarySelectionOffer) Dispatch(opcode uint32, fd int, data []byte) {
 		i.offerHandler(e)
 	}
 }
+
+// PrimarySelectionSourceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PrimarySelectionSourceInterfaceName = "zwp_primary_selection_source_v1"
 
 // PrimarySelectionSource : offer to replace the contents of the primary selection
 //

@@ -30,6 +30,11 @@ package xdg_activation
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// ActivationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ActivationInterfaceName = "xdg_activation_v1"
+
 // Activation : interface for activating surfaces
 //
 // A global interface used for informing the compositor about applications
@@ -124,6 +129,11 @@ func (i *Activation) Activate(token string, surface *client.Surface) error {
 	err := i.Context().WriteMsg(_reqBuf, nil)
 	return err
 }
+
+// ActivationTokenInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ActivationTokenInterfaceName = "xdg_activation_token_v1"
 
 // ActivationToken : an exported activation handle
 //

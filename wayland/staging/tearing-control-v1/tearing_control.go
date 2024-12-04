@@ -29,6 +29,11 @@ package tearing_control
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// TearingControlManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TearingControlManagerInterfaceName = "wp_tearing_control_manager_v1"
+
 // TearingControlManager : protocol for tearing control
 //
 // For some use cases like games or drawing tablets it can make sense to
@@ -146,6 +151,11 @@ func (e TearingControlManagerError) Value() string {
 func (e TearingControlManagerError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// TearingControlInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TearingControlInterfaceName = "wp_tearing_control_v1"
 
 // TearingControl : per-surface tearing control interface
 //

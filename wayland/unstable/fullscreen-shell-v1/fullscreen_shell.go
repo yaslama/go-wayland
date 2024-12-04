@@ -31,6 +31,11 @@ package fullscreen_shell
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// FullscreenShellInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const FullscreenShellInterfaceName = "zwp_fullscreen_shell_v1"
+
 // FullscreenShell : displays a single surface per output
 //
 // Displays a single surface per output.
@@ -438,6 +443,11 @@ func (i *FullscreenShell) Dispatch(opcode uint32, fd int, data []byte) {
 		i.capabilityHandler(e)
 	}
 }
+
+// FullscreenShellModeFeedbackInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const FullscreenShellModeFeedbackInterfaceName = "zwp_fullscreen_shell_mode_feedback_v1"
 
 // FullscreenShellModeFeedback :
 type FullscreenShellModeFeedback struct {

@@ -30,6 +30,11 @@ package pointer_constraints
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// PointerConstraintsInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerConstraintsInterfaceName = "zwp_pointer_constraints_v1"
+
 // PointerConstraints : constrain the movement of a pointer
 //
 // The global interface exposing pointer constraining functionality. It
@@ -282,6 +287,11 @@ func (e PointerConstraintsLifetime) String() string {
 	return e.Name() + "=" + e.Value()
 }
 
+// LockedPointerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LockedPointerInterfaceName = "zwp_locked_pointer_v1"
+
 // LockedPointer : receive relative pointer motion events
 //
 // The wp_locked_pointer interface represents a locked pointer state.
@@ -471,6 +481,11 @@ func (i *LockedPointer) Dispatch(opcode uint32, fd int, data []byte) {
 		i.unlockedHandler(e)
 	}
 }
+
+// ConfinedPointerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ConfinedPointerInterfaceName = "zwp_confined_pointer_v1"
 
 // ConfinedPointer : confined pointer object
 //

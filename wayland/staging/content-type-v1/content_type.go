@@ -30,6 +30,11 @@ package content_type
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// ContentTypeManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ContentTypeManagerInterfaceName = "wp_content_type_manager_v1"
+
 // ContentTypeManager : surface content type manager
 //
 // This interface allows a client to describe the kind of content a surface
@@ -129,6 +134,11 @@ func (e ContentTypeManagerError) Value() string {
 func (e ContentTypeManagerError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// ContentTypeInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ContentTypeInterfaceName = "wp_content_type_v1"
 
 // ContentType : content type object for a surface
 //

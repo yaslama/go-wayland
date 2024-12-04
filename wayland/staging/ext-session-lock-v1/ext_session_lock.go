@@ -22,6 +22,11 @@ package ext_session_lock
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// ExtSessionLockManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ExtSessionLockManagerInterfaceName = "ext_session_lock_manager_v1"
+
 // ExtSessionLockManager : used to lock the session
 //
 // This interface is used to request that the session be locked.
@@ -78,6 +83,11 @@ func (i *ExtSessionLockManager) Lock() (*ExtSessionLock, error) {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// ExtSessionLockInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ExtSessionLockInterfaceName = "ext_session_lock_v1"
 
 // ExtSessionLock : manage lock state and create lock surfaces
 //
@@ -359,6 +369,11 @@ func (i *ExtSessionLock) Dispatch(opcode uint32, fd int, data []byte) {
 		i.finishedHandler(e)
 	}
 }
+
+// ExtSessionLockSurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ExtSessionLockSurfaceInterfaceName = "ext_session_lock_surface_v1"
 
 // ExtSessionLockSurface : a surface displayed while the session is locked
 //

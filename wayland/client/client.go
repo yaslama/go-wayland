@@ -33,6 +33,11 @@ package client
 
 import "golang.org/x/sys/unix"
 
+// DisplayInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DisplayInterfaceName = "wl_display"
+
 // Display : core global object
 //
 // The core global object.  This is a special singleton object.  It
@@ -234,6 +239,11 @@ func (i *Display) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// RegistryInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const RegistryInterfaceName = "wl_registry"
+
 // Registry : global registry object
 //
 // The singleton global registry object.  The server has a number of
@@ -395,6 +405,11 @@ func (i *Registry) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// CallbackInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const CallbackInterfaceName = "wl_callback"
+
 // Callback : callback object
 //
 // Clients can handle the 'done' event to get notified when
@@ -446,6 +461,11 @@ func (i *Callback) Dispatch(opcode uint32, fd int, data []byte) {
 		i.doneHandler(e)
 	}
 }
+
+// CompositorInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const CompositorInterfaceName = "wl_compositor"
 
 // Compositor : the compositor singleton
 //
@@ -509,6 +529,11 @@ func (i *Compositor) Destroy() error {
 	i.Context().Unregister(i)
 	return nil
 }
+
+// ShmPoolInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ShmPoolInterfaceName = "wl_shm_pool"
 
 // ShmPool : a shared memory pool
 //
@@ -632,6 +657,11 @@ func (i *ShmPool) Resize(size int32) error {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return err
 }
+
+// ShmInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ShmInterfaceName = "wl_shm"
 
 // Shm : shared memory support
 //
@@ -1447,6 +1477,11 @@ func (i *Shm) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// BufferInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const BufferInterfaceName = "wl_buffer"
+
 // Buffer : content for a wl_surface
 //
 // A buffer provides the content for a wl_surface. Buffers are
@@ -1535,6 +1570,11 @@ func (i *Buffer) Dispatch(opcode uint32, fd int, data []byte) {
 		i.releaseHandler(e)
 	}
 }
+
+// DataOfferInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DataOfferInterfaceName = "wl_data_offer"
 
 // DataOffer : offer to transfer data
 //
@@ -1899,6 +1939,11 @@ func (i *DataOffer) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// DataSourceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DataSourceInterfaceName = "wl_data_source"
+
 // DataSource : offer to transfer data
 //
 // The wl_data_source object is the source side of a wl_data_offer.
@@ -2232,6 +2277,11 @@ func (i *DataSource) Dispatch(opcode uint32, fd int, data []byte) {
 		i.actionHandler(e)
 	}
 }
+
+// DataDeviceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DataDeviceInterfaceName = "wl_data_device"
 
 // DataDevice : data transfer device
 //
@@ -2595,6 +2645,11 @@ func (i *DataDevice) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// DataDeviceManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DataDeviceManagerInterfaceName = "wl_data_device_manager"
+
 // DataDeviceManager : data transfer interface
 //
 // The wl_data_device_manager is a singleton global object that
@@ -2748,6 +2803,11 @@ func (e DataDeviceManagerDndAction) String() string {
 	return e.Name() + "=" + e.Value()
 }
 
+// ShellInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ShellInterfaceName = "wl_shell"
+
 // Shell : create desktop-style surfaces
 //
 // This interface is implemented by servers that provide
@@ -2841,6 +2901,11 @@ func (e ShellError) Value() string {
 func (e ShellError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// ShellSurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ShellSurfaceInterfaceName = "wl_shell_surface"
 
 // ShellSurface : desktop-style metadata interface
 //
@@ -3489,6 +3554,11 @@ func (i *ShellSurface) Dispatch(opcode uint32, fd int, data []byte) {
 		i.popupDoneHandler(e)
 	}
 }
+
+// SurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const SurfaceInterfaceName = "wl_surface"
 
 // Surface : an onscreen surface
 //
@@ -4213,6 +4283,11 @@ func (i *Surface) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// SeatInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const SeatInterfaceName = "wl_seat"
+
 // Seat : group of input devices
 //
 // A seat is a group of keyboards, pointer and touch devices. This
@@ -4500,6 +4575,11 @@ func (i *Seat) Dispatch(opcode uint32, fd int, data []byte) {
 		i.nameHandler(e)
 	}
 }
+
+// PointerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerInterfaceName = "wl_pointer"
 
 // Pointer : pointer input device
 //
@@ -5232,6 +5312,11 @@ func (i *Pointer) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// KeyboardInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const KeyboardInterfaceName = "wl_keyboard"
+
 // Keyboard : keyboard input device
 //
 // The wl_keyboard interface represents one or more keyboards
@@ -5571,6 +5656,11 @@ func (i *Keyboard) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// TouchInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TouchInterfaceName = "wl_touch"
+
 // Touch : touchscreen input device
 //
 // The wl_touch interface represents a touchscreen
@@ -5880,6 +5970,11 @@ func (i *Touch) Dispatch(opcode uint32, fd int, data []byte) {
 		i.orientationHandler(e)
 	}
 }
+
+// OutputInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const OutputInterfaceName = "wl_output"
 
 // Output : compositor output region
 //
@@ -6403,6 +6498,11 @@ func (i *Output) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// RegionInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const RegionInterfaceName = "wl_region"
+
 // Region : region interface
 //
 // A region object describes an area.
@@ -6499,6 +6599,11 @@ func (i *Region) Subtract(x, y, width, height int32) error {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return err
 }
+
+// SubcompositorInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const SubcompositorInterfaceName = "wl_subcompositor"
 
 // Subcompositor : sub-surface compositing
 //
@@ -6640,6 +6745,11 @@ func (e SubcompositorError) Value() string {
 func (e SubcompositorError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// SubsurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const SubsurfaceInterfaceName = "wl_subsurface"
 
 // Subsurface : sub-surface interface to a wl_surface
 //

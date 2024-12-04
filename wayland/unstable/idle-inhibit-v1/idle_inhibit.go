@@ -29,6 +29,11 @@ package idle_inhibit
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// IdleInhibitManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const IdleInhibitManagerInterfaceName = "zwp_idle_inhibit_manager_v1"
+
 // IdleInhibitManager : control behavior when display idles
 //
 // This interface permits inhibiting the idle behavior such as screen
@@ -106,6 +111,11 @@ func (i *IdleInhibitManager) CreateInhibitor(surface *client.Surface) (*IdleInhi
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// IdleInhibitorInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const IdleInhibitorInterfaceName = "zwp_idle_inhibitor_v1"
 
 // IdleInhibitor : context object for inhibiting idle behavior
 //

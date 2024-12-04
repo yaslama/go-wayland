@@ -29,6 +29,11 @@ package input_timestamps
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// InputTimestampsManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputTimestampsManagerInterfaceName = "zwp_input_timestamps_manager_v1"
+
 // InputTimestampsManager : context object for high-resolution input timestamps
 //
 // A global interface used for requesting high-resolution timestamps
@@ -155,6 +160,11 @@ func (i *InputTimestampsManager) GetTouchTimestamps(touch *client.Touch) (*Input
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// InputTimestampsInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const InputTimestampsInterfaceName = "zwp_input_timestamps_v1"
 
 // InputTimestamps : context object for input timestamps
 //

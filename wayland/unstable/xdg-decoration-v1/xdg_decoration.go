@@ -32,6 +32,11 @@ import (
 	xdg_shell "github.com/rajveermalviya/go-wayland/wayland/stable/xdg-shell"
 )
 
+// DecorationManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DecorationManagerInterfaceName = "zxdg_decoration_manager_v1"
+
 // DecorationManager : window decoration manager
 //
 // This interface allows a compositor to announce support for server-side
@@ -134,6 +139,11 @@ func (i *DecorationManager) GetToplevelDecoration(toplevel *xdg_shell.Toplevel) 
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// ToplevelDecorationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ToplevelDecorationInterfaceName = "zxdg_toplevel_decoration_v1"
 
 // ToplevelDecoration : decoration object for a toplevel surface
 //

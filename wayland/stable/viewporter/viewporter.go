@@ -29,6 +29,11 @@ package viewporter
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// ViewporterInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ViewporterInterfaceName = "wp_viewporter"
+
 // Viewporter : surface cropping and scaling
 //
 // The global interface exposing surface cropping and scaling
@@ -129,6 +134,11 @@ func (e ViewporterError) Value() string {
 func (e ViewporterError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// ViewportInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ViewportInterfaceName = "wp_viewport"
 
 // Viewport : crop and scale interface to a wl_surface
 //

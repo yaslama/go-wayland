@@ -34,6 +34,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// LinuxExplicitSynchronizationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxExplicitSynchronizationInterfaceName = "zwp_linux_explicit_synchronization_v1"
+
 // LinuxExplicitSynchronization : protocol for providing explicit synchronization
 //
 // This global is a factory interface, allowing clients to request
@@ -161,6 +166,11 @@ func (e LinuxExplicitSynchronizationError) Value() string {
 func (e LinuxExplicitSynchronizationError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// LinuxSurfaceSynchronizationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxSurfaceSynchronizationInterfaceName = "zwp_linux_surface_synchronization_v1"
 
 // LinuxSurfaceSynchronization : per-surface explicit synchronization support
 //
@@ -395,6 +405,11 @@ func (e LinuxSurfaceSynchronizationError) Value() string {
 func (e LinuxSurfaceSynchronizationError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// LinuxBufferReleaseInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxBufferReleaseInterfaceName = "zwp_linux_buffer_release_v1"
 
 // LinuxBufferRelease : buffer release explicit synchronization
 //

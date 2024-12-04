@@ -29,6 +29,11 @@ package xdg_foreign
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// ExporterInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ExporterInterfaceName = "zxdg_exporter_v1"
+
 // Exporter : interface for exporting surfaces
 //
 // A global interface used for exporting surfaces that can later be imported
@@ -95,6 +100,11 @@ func (i *Exporter) Export(surface *client.Surface) (*Exported, error) {
 	return id, err
 }
 
+// ImporterInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ImporterInterfaceName = "zxdg_importer_v1"
+
 // Importer : interface for importing surfaces
 //
 // A global interface used for importing surfaces exported by xdg_exporter.
@@ -160,6 +170,11 @@ func (i *Importer) Import(handle string) (*Imported, error) {
 	err := i.Context().WriteMsg(_reqBuf, nil)
 	return id, err
 }
+
+// ExportedInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ExportedInterfaceName = "zxdg_exported_v1"
 
 // Exported : an exported surface handle
 //
@@ -235,6 +250,11 @@ func (i *Exported) Dispatch(opcode uint32, fd int, data []byte) {
 		i.handleHandler(e)
 	}
 }
+
+// ImportedInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ImportedInterfaceName = "zxdg_imported_v1"
 
 // Imported : an imported surface handle
 //

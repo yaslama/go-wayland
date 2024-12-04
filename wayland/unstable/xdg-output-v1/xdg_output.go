@@ -29,6 +29,11 @@ package xdg_output
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// OutputManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const OutputManagerInterfaceName = "zxdg_output_manager_v1"
+
 // OutputManager : manage xdg_output objects
 //
 // A global factory interface for xdg_output objects.
@@ -85,6 +90,11 @@ func (i *OutputManager) GetXdgOutput(output *client.Output) (*Output, error) {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// OutputInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const OutputInterfaceName = "zxdg_output_v1"
 
 // Output : compositor logical output region
 //

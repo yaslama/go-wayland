@@ -8,6 +8,11 @@ package pointer_gestures
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// PointerGesturesInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerGesturesInterfaceName = "zwp_pointer_gestures_v1"
+
 // PointerGestures : touchpad gestures
 //
 // A global interface to provide semantic touchpad gestures for a given
@@ -137,6 +142,11 @@ func (i *PointerGestures) GetHoldGesture(pointer *client.Pointer) (*PointerGestu
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// PointerGestureSwipeInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerGestureSwipeInterfaceName = "zwp_pointer_gesture_swipe_v1"
 
 // PointerGestureSwipe : a swipe gesture object
 //
@@ -305,6 +315,11 @@ func (i *PointerGestureSwipe) Dispatch(opcode uint32, fd int, data []byte) {
 		i.endHandler(e)
 	}
 }
+
+// PointerGesturePinchInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerGesturePinchInterfaceName = "zwp_pointer_gesture_pinch_v1"
 
 // PointerGesturePinch : a pinch gesture object
 //
@@ -486,6 +501,11 @@ func (i *PointerGesturePinch) Dispatch(opcode uint32, fd int, data []byte) {
 		i.endHandler(e)
 	}
 }
+
+// PointerGestureHoldInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PointerGestureHoldInterfaceName = "zwp_pointer_gesture_hold_v1"
 
 // PointerGestureHold : a hold gesture object
 //

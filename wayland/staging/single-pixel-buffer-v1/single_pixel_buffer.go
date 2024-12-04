@@ -29,6 +29,11 @@ package single_pixel_buffer
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// WpSinglePixelBufferManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const WpSinglePixelBufferManagerInterfaceName = "wp_single_pixel_buffer_manager_v1"
+
 // WpSinglePixelBufferManager : global factory for single-pixel buffers
 //
 // The wp_single_pixel_buffer_manager_v1 interface is a factory for

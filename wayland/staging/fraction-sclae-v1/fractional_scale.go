@@ -29,6 +29,11 @@ package fractional_scale
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// FractionalScaleManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const FractionalScaleManagerInterfaceName = "wp_fractional_scale_manager_v1"
+
 // FractionalScaleManager : fractional surface scale information
 //
 // A global interface for requesting surfaces to use fractional scales.
@@ -119,6 +124,11 @@ func (e FractionalScaleManagerError) Value() string {
 func (e FractionalScaleManagerError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// FractionalScaleInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const FractionalScaleInterfaceName = "wp_fractional_scale_v1"
 
 // FractionalScale : fractional scale interface to a wl_surface
 //

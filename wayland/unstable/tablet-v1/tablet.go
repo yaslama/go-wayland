@@ -32,6 +32,11 @@ package tablet
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// TabletManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TabletManagerInterfaceName = "zwp_tablet_manager_v1"
+
 // TabletManager : controller object for graphic tablet devices
 //
 // An object that provides access to the graphics tablets available on this
@@ -93,6 +98,11 @@ func (i *TabletManager) Destroy() error {
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return err
 }
+
+// TabletSeatInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TabletSeatInterfaceName = "zwp_tablet_seat_v1"
 
 // TabletSeat : controller object for graphic tablet devices of a seat
 //
@@ -190,6 +200,11 @@ func (i *TabletSeat) Dispatch(opcode uint32, fd int, data []byte) {
 		i.toolAddedHandler(e)
 	}
 }
+
+// TabletToolInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TabletToolInterfaceName = "zwp_tablet_tool_v1"
 
 // TabletTool : a physical tablet tool
 //
@@ -1137,6 +1152,11 @@ func (i *TabletTool) Dispatch(opcode uint32, fd int, data []byte) {
 		i.frameHandler(e)
 	}
 }
+
+// TabletInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TabletInterfaceName = "zwp_tablet_v1"
 
 // Tablet : graphics tablet device
 //

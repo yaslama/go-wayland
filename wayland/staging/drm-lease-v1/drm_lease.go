@@ -34,6 +34,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// DrmLeaseDeviceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DrmLeaseDeviceInterfaceName = "wp_drm_lease_device_v1"
+
 // DrmLeaseDevice : lease device
 //
 // This protocol is used by Wayland compositors which act as Direct
@@ -272,6 +277,11 @@ func (i *DrmLeaseDevice) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// DrmLeaseConnectorInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DrmLeaseConnectorInterfaceName = "wp_drm_lease_connector_v1"
+
 // DrmLeaseConnector : a leasable DRM connector
 //
 // Represents a DRM connector which is available for lease. These objects are
@@ -457,6 +467,11 @@ func (i *DrmLeaseConnector) Dispatch(opcode uint32, fd int, data []byte) {
 	}
 }
 
+// DrmLeaseRequestInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DrmLeaseRequestInterfaceName = "wp_drm_lease_request_v1"
+
 // DrmLeaseRequest : DRM lease request
 //
 // A client that wishes to lease DRM resources will attach the list of
@@ -573,6 +588,11 @@ func (e DrmLeaseRequestError) Value() string {
 func (e DrmLeaseRequestError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// DrmLeaseInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const DrmLeaseInterfaceName = "wp_drm_lease_v1"
 
 // DrmLease : a DRM lease
 //

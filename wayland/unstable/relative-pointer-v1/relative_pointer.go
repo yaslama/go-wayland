@@ -30,6 +30,11 @@ package relative_pointer
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// RelativePointerManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const RelativePointerManagerInterfaceName = "zwp_relative_pointer_manager_v1"
+
 // RelativePointerManager : get relative pointer objects
 //
 // A global interface used for getting the relative pointer object for a
@@ -87,6 +92,11 @@ func (i *RelativePointerManager) GetRelativePointer(pointer *client.Pointer) (*R
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// RelativePointerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const RelativePointerInterfaceName = "zwp_relative_pointer_v1"
 
 // RelativePointer : relative pointer object
 //

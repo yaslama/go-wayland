@@ -34,6 +34,11 @@ package xdg_shell
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// WmBaseInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const WmBaseInterfaceName = "xdg_wm_base"
+
 // WmBase : create desktop-style surfaces
 //
 // The xdg_wm_base interface is exposed as a global object enabling clients
@@ -261,6 +266,11 @@ func (i *WmBase) Dispatch(opcode uint32, fd int, data []byte) {
 		i.pingHandler(e)
 	}
 }
+
+// PositionerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PositionerInterfaceName = "xdg_positioner"
 
 // Positioner : child surface positioner
 //
@@ -824,6 +834,11 @@ func (e PositionerConstraintAdjustment) String() string {
 	return e.Name() + "=" + e.Value()
 }
 
+// SurfaceInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const SurfaceInterfaceName = "xdg_surface"
+
 // Surface : desktop user interface surface base interface
 //
 // An interface that may be implemented by a wl_surface, for
@@ -1211,6 +1226,11 @@ func (i *Surface) Dispatch(opcode uint32, fd int, data []byte) {
 		i.configureHandler(e)
 	}
 }
+
+// ToplevelInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const ToplevelInterfaceName = "xdg_toplevel"
 
 // Toplevel : toplevel surface
 //
@@ -2202,6 +2222,11 @@ func (i *Toplevel) Dispatch(opcode uint32, fd int, data []byte) {
 		i.wmCapabilitiesHandler(e)
 	}
 }
+
+// PopupInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const PopupInterfaceName = "xdg_popup"
 
 // Popup : short-lived, popup surfaces for menus
 //

@@ -30,6 +30,11 @@ package ext_idle_notify
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// IdleNotifierInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const IdleNotifierInterfaceName = "ext_idle_notifier_v1"
+
 // IdleNotifier : idle notification manager
 //
 // This interface allows clients to monitor user idle status.
@@ -101,6 +106,11 @@ func (i *IdleNotifier) GetIdleNotification(timeout uint32, seat *client.Seat) (*
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
 	return id, err
 }
+
+// IdleNotificationInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const IdleNotificationInterfaceName = "ext_idle_notification_v1"
 
 // IdleNotification : idle notification
 //

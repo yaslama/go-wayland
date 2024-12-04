@@ -34,6 +34,11 @@ package text_input
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// TextInputInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TextInputInterfaceName = "zwp_text_input_v3"
+
 // TextInput : text input
 //
 // The zwp_text_input_v3 interface represents text input and input methods
@@ -860,6 +865,11 @@ func (i *TextInput) Dispatch(opcode uint32, fd int, data []byte) {
 		i.doneHandler(e)
 	}
 }
+
+// TextInputManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const TextInputManagerInterfaceName = "zwp_text_input_manager_v3"
 
 // TextInputManager : text input manager
 //

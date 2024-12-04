@@ -29,6 +29,11 @@ package keyboard_shortcuts_inhibit
 
 import "github.com/rajveermalviya/go-wayland/wayland/client"
 
+// KeyboardShortcutsInhibitManagerInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const KeyboardShortcutsInhibitManagerInterfaceName = "zwp_keyboard_shortcuts_inhibit_manager_v1"
+
 // KeyboardShortcutsInhibitManager : context object for keyboard grab_manager
 //
 // A global interface used for inhibiting the compositor keyboard shortcuts.
@@ -121,6 +126,11 @@ func (e KeyboardShortcutsInhibitManagerError) Value() string {
 func (e KeyboardShortcutsInhibitManagerError) String() string {
 	return e.Name() + "=" + e.Value()
 }
+
+// KeyboardShortcutsInhibitorInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const KeyboardShortcutsInhibitorInterfaceName = "zwp_keyboard_shortcuts_inhibitor_v1"
 
 // KeyboardShortcutsInhibitor : context object for keyboard shortcuts inhibitor
 //

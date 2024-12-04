@@ -32,6 +32,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+// LinuxDmabufInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxDmabufInterfaceName = "zwp_linux_dmabuf_v1"
+
 // LinuxDmabuf : factory for creating dmabuf-based wl_buffers
 //
 // Following the interfaces from:
@@ -360,6 +365,11 @@ func (i *LinuxDmabuf) Dispatch(opcode uint32, fd int, data []byte) {
 		i.modifierHandler(e)
 	}
 }
+
+// LinuxBufferParamsInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxBufferParamsInterfaceName = "zwp_linux_buffer_params_v1"
 
 // LinuxBufferParams : parameters for creating a dmabuf-based wl_buffer
 //
@@ -781,6 +791,11 @@ func (i *LinuxBufferParams) Dispatch(opcode uint32, fd int, data []byte) {
 		i.failedHandler(e)
 	}
 }
+
+// LinuxDmabufFeedbackInterfaceName is the name of the interface as it appears in the [client.Registry].
+// It can be used to match the [client.RegistryGlobalEvent.Interface] in the
+// [Registry.SetGlobalHandler] and can be used in [Registry.Bind] if this applies.
+const LinuxDmabufFeedbackInterfaceName = "zwp_linux_dmabuf_feedback_v1"
 
 // LinuxDmabufFeedback : dmabuf feedback
 //
