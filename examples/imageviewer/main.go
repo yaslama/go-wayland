@@ -102,9 +102,9 @@ func (app *appState) initWindow() {
 	// Add global interfaces registrar handler
 	registry.SetGlobalHandler(app.HandleRegistryGlobal)
 	// Wait for interfaces to register
-	app.displayRoundTrip()
+	app.display.Roundtrip()
 	// Wait for handler events
-	app.displayRoundTrip()
+	app.display.Roundtrip()
 
 	logPrintln("all interfaces registered")
 
@@ -354,29 +354,6 @@ func (app *appState) HandleWmBasePing(e xdg_shell.WmBasePingEvent) {
 
 func (app *appState) HandleToplevelClose(_ xdg_shell.ToplevelCloseEvent) {
 	app.exit = true
-}
-
-func (app *appState) displayRoundTrip() {
-	// Get display sync callback
-	callback, err := app.display.Sync()
-	if err != nil {
-		log.Fatalf("unable to get sync callback: %v", err)
-	}
-	defer func() {
-		if err2 := callback.Destroy(); err2 != nil {
-			logPrintln("unable to destroy callback:", err2)
-		}
-	}()
-
-	done := false
-	callback.SetDoneHandler(func(_ client.CallbackDoneEvent) {
-		done = true
-	})
-
-	// Wait for callback to return
-	for !done {
-		app.dispatch()
-	}
 }
 
 func (app *appState) cleanup() {
