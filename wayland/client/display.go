@@ -29,7 +29,7 @@ func (i *Display) Roundtrip() error {
 	for !done {
 		err := i.Context().GetDispatch()()
 		if err != nil {
-			return fmt.Errorf("unable to dispatch during round trip: %w", err)
+			return fmt.Errorf("roundtrip: failed to dispatch: %w", err)
 		}
 	}
 

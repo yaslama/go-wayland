@@ -42,6 +42,10 @@ func (ctx *Context) Dispatch() error {
 	return ctx.GetDispatch()()
 }
 
+var ErrDispatchSenderNotFound = errors.New("dispatch: unable to find sender")
+var ErrDispatchSenderUnsupported = errors.New("dispatch: sender does not implement Dispatch method")
+var ErrDispatchUnableToReadMsg = errors.New("dispatch: unable to read msg")
+
 // GetDispatch reads incoming messages and returns the dispatch function which calls
 // [client.Dispatcher.Dispatch] on the respective wayland protocol.
 // While GetDispatch is usually called in a loop in a separate goroutine, the dispatch function it
@@ -51,7 +55,7 @@ func (ctx *Context) GetDispatch() func() error {
 	senderID, opcode, fd, data, err := ctx.ReadMsg() // Blocks if there are no incoming messages
 	if err != nil {
 		return func() error {
-			return fmt.Errorf("getDispatch: unable to read msg: %w", err)
+			return fmt.Errorf("%w: %w", ErrDispatchUnableToReadMsg, err)
 		}
 	}
 
@@ -61,10 +65,10 @@ func (ctx *Context) GetDispatch() func() error {
 			if sender, ok := sender.(Dispatcher); ok {
 				sender.Dispatch(opcode, fd, data)
 			} else {
-				return fmt.Errorf("dispatch: sender doesn't implement Dispatch method (senderID=%d)", senderID)
+				return fmt.Errorf("%w (senderID=%d)", ErrDispatchSenderUnsupported, senderID)
 			}
 		} else {
-			return fmt.Errorf("dispatch: unable find sender (senderID=%d)", senderID)
+			return fmt.Errorf("%w (senderID=%d)", ErrDispatchSenderNotFound, senderID)
 		}
 
 		return nil
