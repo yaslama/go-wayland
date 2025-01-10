@@ -80,9 +80,11 @@ func ExampleContext_Dispatch_multi_routine() {
 	display.Roundtrip()
 
 	go func() {
-		err := display.Context().Dispatch()
-		if err != nil {
-			log.Printf("Dispatch error: %v\n", err)
+		for {
+			err := display.Context().Dispatch()
+			if err != nil {
+				log.Printf("Dispatch error: %v\n", err)
+			}
 		}
 	}()
 
