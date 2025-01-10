@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 // Global app state
@@ -34,9 +35,14 @@ func main() {
 		}
 	}()
 
+	stop := time.After(15 * time.Second)
+
 	for {
 		select {
 		// Code that does other things can be added here.
+		case <-stop:
+			app.cleanup()
+			return
 		case <-c:
 			app.cleanup()
 			os.Exit(1)
