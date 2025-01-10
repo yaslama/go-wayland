@@ -12,7 +12,6 @@ import (
 
 // Global app state
 type appState struct {
-	exit     bool
 	display  *client.Display
 	registry *client.Registry
 	seat     *client.Seat
@@ -24,17 +23,31 @@ func main() {
 
 	app.initWindow()
 
+	dispatchQueue := make(chan func() error)
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
 	go func() {
-		<-c
-		app.exit = true
-		app.cleanup()
-		os.Exit(1)
+		for {
+			dispatchFunc := app.display.Context().GetDispatch()
+			dispatchQueue <- dispatchFunc
+		}
 	}()
 
 	for {
-		app.dispatch()
+		select {
+		// Code that does other things can be added here.
+		case <-c:
+			app.cleanup()
+			os.Exit(1)
+			return
+		case dispatchFunc := <-dispatchQueue:
+			// It is important to call dispatchFunc in the same goroutine.
+			err := dispatchFunc()
+			if err != nil {
+				log.Printf("Error dispatching: %v\n", err)
+			}
+		}
 	}
 }
 
@@ -72,13 +85,6 @@ func (app *appState) initWindow() {
 	notification.SetResumedHandler(func(event idlenotify.IdleNotificationResumedEvent) {
 		fmt.Printf("Resumed\n")
 	})
-}
-
-func (app *appState) dispatch() {
-	err := app.display.Context().Dispatch()
-	if err != nil && !app.exit {
-		log.Printf("Error dispatching: %v\n", err)
-	}
 }
 
 func (app *appState) context() *client.Context {

@@ -5,14 +5,12 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"sync"
 )
 
 type Context struct {
-	conn          *net.UnixConn
-	objects       map[uint32]Proxy
-	currentID     uint32
-	dispatchMutex sync.Mutex
+	conn      *net.UnixConn
+	objects   map[uint32]Proxy
+	currentID uint32
 }
 
 func (ctx *Context) Register(p Proxy) {
@@ -36,45 +34,41 @@ func (ctx *Context) Close() error {
 
 // Dispatch reads and processes incoming messages and calls [client.Dispatcher.Dispatch] on the
 // respective wayland protocol.
-// A Dispatch loop is usually used to handle incoming messages.
+// Dispatch must be called on the same goroutine as other interactions with the Context.
+// If a multi goroutine approach is desired, use [Context.GetDispatch] instead.
 // Dispatch blocks if there are no incoming messages.
-// Dispatch can be safe to call from another goroutine, if, before any wayland function is called,
-// or any wayland object is used, a lock is established using [Context.Lock].
+// A Dispatch loop is usually used to handle incoming messages.
 func (ctx *Context) Dispatch() error {
+	return ctx.GetDispatch()()
+}
+
+// GetDispatch reads incoming messages and returns the dispatch function which calls
+// [client.Dispatcher.Dispatch] on the respective wayland protocol.
+// While GetDispatch is usually called in a loop in a separate goroutine, the dispatch function it
+// returns must be called in the same goroutine as other interactions with the Context.
+// GetDispatch blocks if there are no incoming messages.
+func (ctx *Context) GetDispatch() func() error {
 	senderID, opcode, fd, data, err := ctx.ReadMsg() // Blocks if there are no incoming messages
 	if err != nil {
-		return fmt.Errorf("ctx.Dispatch: unable to read msg: %w", err)
-	}
-
-	// Take the dispatch lock. If the lock is already taken, this waits until another goroutine has
-	// made their changes and releases the lock. If the lock is free, we take it, dispatch, and
-	// release.
-	ctx.dispatchMutex.Lock()
-	defer ctx.dispatchMutex.Unlock()
-	sender, ok := ctx.objects[senderID]
-	if ok {
-		if sender, ok := sender.(Dispatcher); ok {
-			sender.Dispatch(opcode, fd, data)
-		} else {
-			return fmt.Errorf("ctx.Dispatch: sender doesn't implement Dispatch method (senderID=%d)", senderID)
+		return func() error {
+			return fmt.Errorf("getDispatch: unable to read msg: %w", err)
 		}
-	} else {
-		return fmt.Errorf("ctx.Dispatch: unable find sender (senderID=%d)", senderID)
 	}
 
-	return nil
-}
+	return func() error {
+		sender, ok := ctx.objects[senderID]
+		if ok {
+			if sender, ok := sender.(Dispatcher); ok {
+				sender.Dispatch(opcode, fd, data)
+			} else {
+				return fmt.Errorf("dispatch: sender doesn't implement Dispatch method (senderID=%d)", senderID)
+			}
+		} else {
+			return fmt.Errorf("dispatch: unable find sender (senderID=%d)", senderID)
+		}
 
-// Lock takes a lock that will prevent further dispatching until unlocked.
-// This is necessary if Dispatch is called in another goroutine.
-func (ctx *Context) Lock() {
-	ctx.dispatchMutex.Lock()
-}
-
-// Unlock unlocks the dispatch lock.
-// This is necessary after [Context.Lock] if [Context.Dispatch] is called in another goroutine.
-func (ctx *Context) Unlock() {
-	ctx.dispatchMutex.Unlock()
+		return nil
+	}
 }
 
 func Connect(addr string) (*Display, error) {

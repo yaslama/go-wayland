@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"github.com/MatthiasKunnen/go-wayland/wayland/client"
 	"log"
-	"time"
 )
 
 // Shows a dispatch loop that will block the goroutine.
 // This approach has no risk of data races but the loop blocks the goroutine when no messages are
 // received. This can be a valid approach if there are no more changes that need to be made after
 // setting up and starting the loop.
-func ExampleContext_Dispatch_single_routine() {
+// For a multi goroutine approach, use [client.Context.GetDispatch].
+func ExampleContext_Dispatch() {
 	display, err := client.Connect("")
 	if err != nil {
 		log.Fatalf("Error connecting to Wayland server: %v", err)
@@ -54,7 +54,7 @@ func ExampleContext_Dispatch_single_routine() {
 // Shows how the dispatch loop can be done in another goroutine.
 // This prevents the goroutine from being blocked and allows making changes to wayland objects while
 // the dispatch loop is blocking another goroutine.
-func ExampleContext_Dispatch_multi_routine() {
+func ExampleContext_GetDispatch() {
 	display, err := client.Connect("")
 	if err != nil {
 		log.Fatalf("Error connecting to Wayland server: %v", err)
@@ -78,20 +78,14 @@ func ExampleContext_Dispatch_multi_routine() {
 	})
 	display.Roundtrip()
 	display.Roundtrip()
+	dispatchQueue := make(chan func() error)
 
 	go func() {
 		for {
-			err := display.Context().Dispatch()
-			if err != nil {
-				log.Printf("Dispatch error: %v\n", err)
-			}
+			dispatchQueue <- display.Context().GetDispatch()
 		}
 	}()
 
-	time.Sleep(100 * time.Millisecond)
-	// The lock must be acquired to prevent data races.
-	display.Context().Lock()
-	defer display.Context().Unlock()
 	keyboard, err := seat.GetKeyboard()
 	if err != nil {
 		log.Printf("Error getting keyboard: %v", err)
@@ -101,5 +95,16 @@ func ExampleContext_Dispatch_multi_routine() {
 	err = errors.Join(keyboard.Release(), seat.Release(), display.Context().Close())
 	if err != nil {
 		fmt.Printf("Error cleaning up: %v\n", err)
+	}
+
+	for {
+		select {
+		// Add other cases here to do other things
+		case dispatchFunc := <-dispatchQueue:
+			err := dispatchFunc()
+			if err != nil {
+				log.Printf("Dispatch error: %v\n", err)
+			}
+		}
 	}
 }
