@@ -5,12 +5,12 @@ import (
 	"log"
 	"os"
 
+	"github.com/nfnt/resize"
 	"github.com/yaslama/go-wayland/examples/imageviewer/internal/swizzle"
 	"github.com/yaslama/go-wayland/examples/imageviewer/internal/tempfile"
 	"github.com/yaslama/go-wayland/wayland/client"
 	"github.com/yaslama/go-wayland/wayland/cursor"
 	xdg_shell "github.com/yaslama/go-wayland/wayland/stable/xdg-shell"
-	"github.com/nfnt/resize"
 	"golang.org/x/sys/unix"
 )
 
@@ -417,7 +417,7 @@ func (app *appState) cleanup() {
 	}
 
 	if app.shm != nil {
-		if err := app.shm.Destroy(); err != nil {
+		if err := app.shm.Release(); err != nil {
 			logPrintln("unable to destroy wl_shm:", err)
 		}
 		app.shm = nil
