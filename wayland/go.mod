@@ -1,4 +1,4 @@
-module github.com/MatthiasKunnen/go-wayland/wayland
+module github.com/yaslama/go-wayland/wayland
 
 go 1.19
 

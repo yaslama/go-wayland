@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/MatthiasKunnen/go-wayland/examples/imageviewer/internal/swizzle"
-	"github.com/MatthiasKunnen/go-wayland/examples/imageviewer/internal/tempfile"
-	"github.com/MatthiasKunnen/go-wayland/wayland/client"
-	"github.com/MatthiasKunnen/go-wayland/wayland/cursor"
-	xdg_shell "github.com/MatthiasKunnen/go-wayland/wayland/stable/xdg-shell"
+	"github.com/yaslama/go-wayland/examples/imageviewer/internal/swizzle"
+	"github.com/yaslama/go-wayland/examples/imageviewer/internal/tempfile"
+	"github.com/yaslama/go-wayland/wayland/client"
+	"github.com/yaslama/go-wayland/wayland/cursor"
+	xdg_shell "github.com/yaslama/go-wayland/wayland/stable/xdg-shell"
 	"github.com/nfnt/resize"
 	"golang.org/x/sys/unix"
 )

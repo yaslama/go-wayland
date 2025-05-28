@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/MatthiasKunnen/go-wayland/wayland/client"
-	idlenotify "github.com/MatthiasKunnen/go-wayland/wayland/staging/ext-idle-notify-v1"
+	"github.com/yaslama/go-wayland/wayland/client"
+	idlenotify "github.com/yaslama/go-wayland/wayland/staging/ext-idle-notify-v1"
 	"log"
 	"os"
 	"os/signal"

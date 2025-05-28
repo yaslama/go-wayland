@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/MatthiasKunnen/go-wayland/wayland/client"
-	security_context "github.com/MatthiasKunnen/go-wayland/wayland/staging/security-context-v1"
+	"github.com/yaslama/go-wayland/wayland/client"
+	security_context "github.com/yaslama/go-wayland/wayland/staging/security-context-v1"
 )
 
 const socketName = "wayland-restricted-0"
