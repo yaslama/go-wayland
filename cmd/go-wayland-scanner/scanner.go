@@ -467,7 +467,7 @@ func writeRequest(w io.Writer, ifaceName string, opcode int, r Request) {
 	}
 	fmt.Fprintf(w, "l += 4\n")
 
-	var fdIndices []int
+	fdIndex := -1
 	for i, arg := range r.Args {
 		argNameLower := toLowerCamel(arg.Name)
 
@@ -508,9 +508,9 @@ func writeRequest(w io.Writer, ifaceName string, opcode int, r Request) {
 				fmt.Fprintf(w, "l += 4\n")
 			} else {
 				if protocol.Name == "wayland" {
-					fmt.Fprintf(w, "PutString(_reqBuf[l:l+(4 + ifaceLen)], iface, ifaceLen)\n")
+					fmt.Fprintf(w, "PutString(_reqBuf[l:l+(4 + ifaceLen)], iface)\n")
 				} else {
-					fmt.Fprintf(w, "client.PutString(_reqBuf[l:l+(4 + ifaceLen)], iface, ifaceLen)\n")
+					fmt.Fprintf(w, "client.PutString(_reqBuf[l:l+(4 + ifaceLen)], iface)\n")
 				}
 				fmt.Fprintf(w, "l += (4 + ifaceLen)\n")
 
@@ -547,9 +547,9 @@ func writeRequest(w io.Writer, ifaceName string, opcode int, r Request) {
 
 		case "string":
 			if protocol.Name == "wayland" {
-				fmt.Fprintf(w, "PutString(_reqBuf[l:l+(4 + %sLen)], %s, %sLen)\n", argNameLower, argNameLower, argNameLower)
+				fmt.Fprintf(w, "PutString(_reqBuf[l:l+(4 + %sLen)], %s)\n", argNameLower, argNameLower)
 			} else {
-				fmt.Fprintf(w, "client.PutString(_reqBuf[l:l+(4 + %sLen)], %s, %sLen)\n", argNameLower, argNameLower, argNameLower)
+				fmt.Fprintf(w, "client.PutString(_reqBuf[l:l+(4 + %sLen)], %s)\n", argNameLower, argNameLower)
 			}
 			fmt.Fprintf(w, "l += (4 + %sLen)\n", argNameLower)
 
@@ -562,24 +562,15 @@ func writeRequest(w io.Writer, ifaceName string, opcode int, r Request) {
 			fmt.Fprintf(w, "l += %sLen\n", argNameLower)
 
 		case "fd":
-			fdIndices = append(fdIndices, i)
+			fdIndex = i
 		}
 	}
 
-	if len(fdIndices) > 0 {
-		io.WriteString(w, "oob := unix.UnixRights(")
+	if fdIndex != -1 {
+		arg := r.Args[fdIndex]
+		argNameLower := toLowerCamel(arg.Name)
 
-		for i, fdIndex := range fdIndices {
-			arg := r.Args[fdIndex]
-			argNameLower := toLowerCamel(arg.Name)
-			fmt.Fprintf(w, "int(%s)", argNameLower)
-
-			if i != len(fdIndices)-1 {
-				io.WriteString(w, ", ")
-			}
-		}
-
-		io.WriteString(w, ")\n")
+		fmt.Fprintf(w, "oob := unix.UnixRights(int(%s))\n", argNameLower)
 
 		if canBeConst {
 			fmt.Fprintf(w, "err := i.Context().WriteMsg(_reqBuf[:], oob)\n")
